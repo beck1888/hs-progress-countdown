@@ -49,6 +49,7 @@ const DevTools: React.FC<DevToolsProps> = ({ onClose }) => {
     <div className="fixed bottom-4 left-4 bg-gray-800 bg-opacity-80 backdrop-blur-md p-6 rounded-lg border border-gray-700 w-[90%] max-w-sm text-sm overflow-auto max-h-[90vh]">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-bold text-gray-300">Dev Tools</h3>
+        <h4 className="text-red-500 font-bold">WARNING: These may break this site!</h4>
         <button
           className="text-white hover:text-gray-400"
           onClick={onClose}

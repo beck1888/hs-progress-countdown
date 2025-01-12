@@ -77,7 +77,7 @@ Some ideas for contributions include (if I don't get to them first because this 
 
 ## Acknowledgments
 
-Emojis used in this project are provided by [Twemoji](https://twemoji.twitter.com/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Emojis used in this project are provided by [Twemoji](https://twemoji.twitter.com/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Usages include but may not be limited to the following: favicon, flag emoji
 
 
 Sound Effect of clock ticking by [freesound_community](https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=76043) from [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=76043)
