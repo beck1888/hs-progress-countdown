@@ -130,9 +130,21 @@ const CountdownPage = () => {
     });
   };
 
+  const getNowTime = (): Date => {
+    if (typeof window !== 'undefined') {
+      const override = localStorage.getItem("manualCountdownOverride");
+      if (override) {
+        return new Date(override);
+      }
+      return new Date(new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+    }
+    // Fallback if window is undefined (SSR)
+    return new Date();
+  };
+
   // Move the update logic outside of useEffect to prevent infinite loops
   const updateCountdown = () => {
-    const now = new Date();
+    const now = getNowTime();
     const totalDuration = endDate.getTime() - startDate.getTime();
     const elapsedDuration = now.getTime() - startDate.getTime();
     const calc = (elapsedDuration / totalDuration) * 100;
@@ -223,7 +235,7 @@ const CountdownPage = () => {
         showText={showText}
         showHeaders={showHeaders}
         enableTickingSound={enableTickingSound}
-        roundingMethod={roundingMethod}
+        roundingMethod="floor" // Force rounding method to "floor"
         onToggleDecimals={handleToggleDecimals}
         onToggleDigital={handleToggleDigital}
         onToggleRing={handleToggleRing}
@@ -232,7 +244,7 @@ const CountdownPage = () => {
         onToggleTickingSound={handleToggleTickingSound}
         useNewBranding={useNewBranding} // Add this
         onToggleBranding={handleToggleBranding} // Add this
-        onChangeRoundingMethod={handleChangeRoundingMethod} // Add this
+        onChangeRoundingMethod={() => {}} // Disable changing rounding method
         showDevToolsIcon={showDevToolsIcon} // Add this
         onToggleDevToolsIcon={handleToggleDevToolsIcon} // Add this
       />
@@ -262,7 +274,7 @@ const CountdownPage = () => {
             percentage={percentage}
             showText={showText}
             showDecimals={showDecimals}
-            roundingMethod={roundingMethod}
+            roundingMethod="floor" // Force rounding method to "floor"
             className="mb-8"
           />
         )}

@@ -190,12 +190,11 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="flex items-center justify-between mb-2">
           <span>Rounding method:</span>
           <select
-            value={roundingMethod}
-            onChange={(e) => onChangeRoundingMethod(e.target.value as 'floor' | 'nearest')}
+            value="floor"
+            disabled
             className="bg-gray-600 text-white rounded p-1"
           >
             <option value="floor">Floor</option>
-            <option value="nearest">Nearest</option>
           </select>
         </div>
       </div>

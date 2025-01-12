@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface DevToolsProps {
   onClose: () => void;
@@ -6,6 +6,17 @@ interface DevToolsProps {
 
 const DevTools: React.FC<DevToolsProps> = ({ onClose }) => {
   const [overrideDate, setOverrideDate] = useState("");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("manualCountdownOverride");
+    if (stored) {
+      setOverrideDate(stored);
+    } else {
+      const laNow = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+      // Use a 'datetime-local' friendly format
+      setOverrideDate(laNow.toISOString().slice(0,16));
+    }
+  }, []);
 
   const handleOverride = () => {
     // Example logic to override the current date in an app-specific way
@@ -25,6 +36,12 @@ const DevTools: React.FC<DevToolsProps> = ({ onClose }) => {
     const jumpDate = new Date(endDate.getTime() - 5000); // 5 seconds before end
     localStorage.setItem("manualCountdownOverride", jumpDate.toISOString());
     alert(`Jumping to: ${jumpDate}`);
+    window.location.reload();
+  };
+
+  const handleResetToCurrentTime = () => {
+    localStorage.removeItem("manualCountdownOverride");
+    alert("Reset to current time. Page will reload.");
     window.location.reload();
   };
 
@@ -59,6 +76,12 @@ const DevTools: React.FC<DevToolsProps> = ({ onClose }) => {
         className="px-3 py-1 bg-yellow-600 hover:bg-yellow-500 rounded text-white mb-2"
       >
         Jump to 5s Before End
+      </button>
+      <button
+        onClick={handleResetToCurrentTime}
+        className="px-3 py-1 bg-green-600 hover:bg-green-500 rounded text-white mb-2"
+      >
+        Reset to Current Time
       </button>
       <button
         onClick={handleClearLocalStorage}
