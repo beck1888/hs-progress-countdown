@@ -6,9 +6,9 @@ import Settings from "@/components/ui/Settings";
 import DigitalCountdown from "@/components/ui/DigitalCountdown";
 
 import Image from 'next/image';
-import InfoIcon from "../../public/icons/info.png";
-import SettingsIcon from "../../public/icons/settings.png";
-import CloseIcon from "../../public/icons/close.png";
+import InfoIcon from "../../public/icons/info.svg";
+import SettingsIcon from "../../public/icons/settings.svg";
+import CloseIcon from "../../public/icons/close.svg";
 
 interface CircularTimerProps {
   percentage: number;
