@@ -16,6 +16,8 @@ interface CircularTimerProps {
   strokeWidth?: number;
   className?: string;
   showText?: boolean; // New prop
+  showDecimals?: boolean; // New prop
+  roundingMethod?: 'floor' | 'nearest'; // New prop
 }
 
 interface TimeParts {
@@ -62,11 +64,19 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
   size = 320,
   strokeWidth = 20,
   className = '',
-  showText // New prop
+  showText, // New prop
+  showDecimals, // New prop
+  roundingMethod // New prop
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDashOffset = circumference - (percentage / 100) * circumference;
+
+  const displayPercentage = showDecimals
+    ? percentage.toFixed(2)
+    : roundingMethod === 'floor'
+    ? Math.floor(percentage).toString()
+    : Math.round(percentage).toString();
 
   return (
     <div className={`relative ${className}`} style={{ padding: '20px' }}>
@@ -103,7 +113,7 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
       </svg>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
         <p className="text-4xl font-bold text-white transition-all duration-300">
-          {percentage.toFixed(2)}%
+          {displayPercentage}%
         </p>
         {showText && (
           <p className="text-sm text-gray-400">done with high school</p>
@@ -126,6 +136,7 @@ const TimeElapsedPage = () => {
   const [showDigital, setShowDigital] = useState(true);
   const [showRing, setShowRing] = useState(true);
   const [showText, setShowText] = useState(true); // New state
+  const [roundingMethod, setRoundingMethod] = useState<'floor' | 'nearest'>('floor'); // New state
 
   // Toggle handlers for InfoBox and Settings so only one can be open at a time
   const handleToggleInfo = () => {
@@ -156,6 +167,10 @@ const TimeElapsedPage = () => {
 
   const handleToggleText = () => {
     setShowText(!showText);
+  };
+
+  const handleChangeRoundingMethod = (method: 'floor' | 'nearest') => {
+    setRoundingMethod(method);
   };
 
   const calculatePercentage = () => {
@@ -194,10 +209,12 @@ const TimeElapsedPage = () => {
         showDigital={showDigital}
         showRing={showRing}
         showText={showText} // New prop
+        roundingMethod={roundingMethod} // New prop
         onToggleDecimals={handleToggleDecimals}
         onToggleDigital={handleToggleDigital}
         onToggleRing={handleToggleRing}
         onToggleText={handleToggleText} // New prop
+        onChangeRoundingMethod={handleChangeRoundingMethod} // New prop
       />
       <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
         <button
@@ -216,8 +233,10 @@ const TimeElapsedPage = () => {
       <div className="flex flex-col items-center mt-8">
         {showRing && (
           <CircularTimer
-            percentage={showDecimals ? percentage : parseFloat(percentage.toFixed(0))}
+            percentage={percentage}
             showText={showText} // New prop
+            showDecimals={showDecimals} // New prop
+            roundingMethod={roundingMethod} // New prop
           />
         )}
         {showDigital && (

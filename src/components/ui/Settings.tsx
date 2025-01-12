@@ -6,10 +6,12 @@ interface SettingsProps {
   showDigital: boolean;
   showRing: boolean;
   showText: boolean; // New prop
+  roundingMethod: 'floor' | 'nearest'; // New prop
   onToggleDecimals: () => void;
   onToggleDigital: () => void;
   onToggleRing: () => void;
   onToggleText: () => void; // New prop
+  onChangeRoundingMethod: (method: 'floor' | 'nearest') => void; // New prop
 }
 
 const Settings: React.FC<SettingsProps> = ({
@@ -18,10 +20,12 @@ const Settings: React.FC<SettingsProps> = ({
   showDigital,
   showRing,
   showText, // New prop
+  roundingMethod, // New prop
   onToggleDecimals,
   onToggleDigital,
   onToggleRing,
   onToggleText, // New prop
+  onChangeRoundingMethod, // New prop
 }) => {
   if (!isOpen) return null;
 
@@ -81,7 +85,7 @@ const Settings: React.FC<SettingsProps> = ({
       <div>
         <h3 className="text-lg font-bold text-gray-300 mb-2">Precision</h3>
         <div className="flex items-center justify-between mb-2">
-          <span>Show two decimals?</span>
+          <span>Show decimals?</span>
           <label className="inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
@@ -93,6 +97,17 @@ const Settings: React.FC<SettingsProps> = ({
               <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${decimals ? 'translate-x-5 bg-blue-300' : ''}`} />
             </div>
           </label>
+        </div>
+        <div className="flex items-center justify-between mb-2">
+          <span>Rounding method:</span>
+          <select
+            value={roundingMethod}
+            onChange={(e) => onChangeRoundingMethod(e.target.value as 'floor' | 'nearest')}
+            className="bg-gray-600 text-white rounded p-1"
+          >
+            <option value="floor">Floor</option>
+            <option value="nearest">Nearest</option>
+          </select>
         </div>
       </div>
     </div>
