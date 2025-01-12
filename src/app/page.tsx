@@ -15,6 +15,7 @@ interface CircularTimerProps {
   size?: number;
   strokeWidth?: number;
   className?: string;
+  showText?: boolean; // New prop
 }
 
 interface TimeParts {
@@ -60,7 +61,8 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
   percentage,
   size = 320,
   strokeWidth = 20,
-  className = ''
+  className = '',
+  showText // New prop
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
@@ -95,7 +97,7 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
             strokeDasharray: circumference,
             strokeDashoffset: strokeDashOffset,
             transition: 'stroke-dashoffset 0.5s ease',
-            filter: 'drop-shadow(0 0 15px rgba(0, 145, 255, 0.8))'
+            filter: 'drop-shadow(0 0 15px rgba(0, 0, 255, 0.8))'
           }}
         />
       </svg>
@@ -103,6 +105,9 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
         <p className="text-4xl font-bold text-white transition-all duration-300">
           {percentage.toFixed(2)}%
         </p>
+        {showText && (
+          <p className="text-sm text-gray-400">done with high school</p>
+        )}
       </div>
     </div>
   );
@@ -120,6 +125,7 @@ const TimeElapsedPage = () => {
   const [showDecimals, setShowDecimals] = useState(true);
   const [showDigital, setShowDigital] = useState(true);
   const [showRing, setShowRing] = useState(true);
+  const [showText, setShowText] = useState(true); // New state
 
   // Toggle handlers for InfoBox and Settings so only one can be open at a time
   const handleToggleInfo = () => {
@@ -136,16 +142,20 @@ const TimeElapsedPage = () => {
     setShowDecimals(!showDecimals);
   };
   const handleToggleDigital = () => {
-    // If turning off digital and ring is already off, re-enable digital
-    if (showDigital && !showRing) return;
+    if (showDigital && !showRing) {
+      setShowRing(true);
+    }
     setShowDigital(!showDigital);
-    if (!showDigital) setShowRing(true);
   };
   const handleToggleRing = () => {
-    // If turning off ring and digital is already off, re-enable ring
-    if (showRing && !showDigital) return;
+    if (showRing && !showDigital) {
+      setShowDigital(true);
+    }
     setShowRing(!showRing);
-    if (!showRing) setShowDigital(true);
+  };
+
+  const handleToggleText = () => {
+    setShowText(!showText);
   };
 
   const calculatePercentage = () => {
@@ -183,9 +193,11 @@ const TimeElapsedPage = () => {
         decimals={showDecimals}
         showDigital={showDigital}
         showRing={showRing}
+        showText={showText} // New prop
         onToggleDecimals={handleToggleDecimals}
         onToggleDigital={handleToggleDigital}
         onToggleRing={handleToggleRing}
+        onToggleText={handleToggleText} // New prop
       />
       <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
         <button
@@ -205,6 +217,7 @@ const TimeElapsedPage = () => {
         {showRing && (
           <CircularTimer
             percentage={showDecimals ? percentage : parseFloat(percentage.toFixed(0))}
+            showText={showText} // New prop
           />
         )}
         {showDigital && (
