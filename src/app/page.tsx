@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import InfoBox from "@/components/ui/InfoBox";
 
 interface CircularTimerProps {
   percentage: number;
@@ -104,7 +105,6 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
 const TimeElapsedPage = () => {
   const [percentage, setPercentage] = useState<number>(0);
   const [timeParts, setTimeParts] = useState<TimeParts>({ years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [showDates, setShowDates] = useState(false);
   
   const startDate = new Date('2021-08-23T08:45:00');
   const endDate = new Date('2025-06-05T16:00:00');
@@ -133,18 +133,7 @@ const TimeElapsedPage = () => {
       <h1 className="text-4xl font-bold text-white mb-8" style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))' }}>
         Class of 2025 Graduation Countdown
       </h1>
-      <button
-        onClick={() => setShowDates(!showDates)}
-        className="absolute top-4 right-4 px-3 py-1 bg-gray-700 rounded hover:bg-gray-600"
-      >
-        Info
-      </button>
-      {showDates && (
-        <div className="absolute top-16 right-4 bg-gray-800 p-4 rounded border border-gray-700 w-64 text-sm">
-          <div>Start: {startDate.toLocaleString()}</div>
-          <div>End: {endDate.toLocaleString()}</div>
-        </div>
-      )}
+      <InfoBox startDate={startDate} endDate={endDate} />
       <div className="flex flex-col items-center">
         <CircularTimer percentage={percentage} />
         <div className="mt-6 text-center space-y-2">
