@@ -19,3 +19,15 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Remove mobile-specific styles */
+/* body.mobile {
+  font-size: 14px;
+} */
+
+/* Remove mobile-specific media query */
+/* @media (max-width: 600px) {
+  body:not(.mobile) {
+    display: none;
+  }
+} */

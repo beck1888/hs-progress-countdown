@@ -23,7 +23,6 @@ export default function RootLayout({
   const [useNewBranding, setUseNewBranding] = useState(false);
 
   useEffect(() => {
-    // Fetch the branding setting from local storage or a global state
     const brandingSetting = localStorage.getItem("useNewBranding") === "true";
     setUseNewBranding(brandingSetting);
   }, []);
@@ -38,9 +37,12 @@ export default function RootLayout({
         <meta name="description" content="A countdown to when the class of 2025 graduates." />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen container mx-auto px-4`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen w-full relative`}
       >
         {children}
+        <footer className="absolute bottom-2 w-full text-center text-white text-xs opacity-30">
+          This site is not affiliated with Kehillah and may not reflect actual dates.
+        </footer>
       </body>
     </html>
   );
