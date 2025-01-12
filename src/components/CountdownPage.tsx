@@ -5,6 +5,7 @@ import InfoBox from "@/components/ui/InfoBox";
 import Settings from "@/components/ui/Settings";
 import DigitalCountdown from "@/components/ui/DigitalCountdown";
 import CircularTimer from "@/components/ui/CircularTimer";
+import DevTools from "@/components/ui/DevTools"; // Add this
 import { getTimeDiff, pad } from "@/utils/time";
 
 import Image from "next/image";
@@ -45,6 +46,8 @@ const CountdownPage = () => {
   const [showHeaders, setShowHeaders] = useState(false);
   const [enableTickingSound, setEnableTickingSound] = useState(false);
   const [useNewBranding, setUseNewBranding] = useState(false); // Add this
+  const [showDevToolsIcon, setShowDevToolsIcon] = useState(false); // Add this
+  const [showDevTools, setShowDevTools] = useState(false); // Add this
   const tickingSoundRef = useRef<HTMLAudioElement | null>(null);
 
   const handleToggleInfo = () => {
@@ -119,6 +122,14 @@ const CountdownPage = () => {
     });
   };
 
+  const handleToggleDevToolsIcon = () => {
+    setShowDevToolsIcon((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("enableDevTools", JSON.stringify(newValue));
+      return newValue;
+    });
+  };
+
   // Move the update logic outside of useEffect to prevent infinite loops
   const updateCountdown = () => {
     const now = new Date();
@@ -170,6 +181,8 @@ const CountdownPage = () => {
     setShowHeaders(JSON.parse(localStorage.getItem("showHeaders") || "false"));
     setEnableTickingSound(JSON.parse(localStorage.getItem("enableTickingSound") || "false"));
     setUseNewBranding(JSON.parse(localStorage.getItem("useNewBranding") || "false"));
+    setShowDevToolsIcon(JSON.parse(localStorage.getItem("enableDevTools") || "false"));
+    setShowDevTools(JSON.parse(localStorage.getItem("enableDevTools") || "false")); // Add this
   }, []);
 
   return (
@@ -220,8 +233,16 @@ const CountdownPage = () => {
         useNewBranding={useNewBranding} // Add this
         onToggleBranding={handleToggleBranding} // Add this
         onChangeRoundingMethod={handleChangeRoundingMethod} // Add this
+        showDevToolsIcon={showDevToolsIcon} // Add this
+        onToggleDevToolsIcon={handleToggleDevToolsIcon} // Add this
       />
-      <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
+      {/* Dev Tools Panel */}
+      {showDevToolsIcon && showDevTools && (
+        <DevTools
+          onClose={() => setShowDevTools(false)}
+        />
+      )}
+      <div className="absolute bottom-4 right-4 flex flex-col space-y-4">
         <button
           onClick={handleToggleInfo}
           className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showInfoBox ? 'bg-red-500 hover:bg-red-400' : 'bg-gray-700 hover:bg-gray-600'}`}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface SettingsProps {
   isOpen: boolean;
@@ -18,6 +18,8 @@ interface SettingsProps {
   onToggleTickingSound: () => void; 
   onToggleBranding: () => void; // Add this
   onChangeRoundingMethod: (method: 'floor' | 'nearest') => void; 
+  showDevToolsIcon: boolean; // Add this
+  onToggleDevToolsIcon: () => void; // Add this
 }
 
 const Settings: React.FC<SettingsProps> = ({
@@ -38,7 +40,26 @@ const Settings: React.FC<SettingsProps> = ({
   onToggleTickingSound, 
   onToggleBranding, // Add this
   onChangeRoundingMethod, 
+  showDevToolsIcon,
+  onToggleDevToolsIcon,
 }) => {
+  const [showDevTools, setShowDevTools] = useState(false);
+
+  useEffect(() => {
+    if (showDevToolsIcon) {
+      setShowDevTools(true);
+    } else {
+      setShowDevTools(false);
+    }
+  }, [showDevToolsIcon]);
+
+  const handleToggleDevToolsIcon = () => {
+    onToggleDevToolsIcon();
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -132,6 +153,20 @@ const Settings: React.FC<SettingsProps> = ({
             />
             <div className="w-10 h-5 bg-gray-600 rounded-full relative">
               <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${useNewBranding ? 'translate-x-5 bg-blue-500' : ''}`} />
+            </div>
+          </label>
+        </div>
+        <div className="flex items-center justify-between mb-2">
+          <span>Enable Dev Tools?</span>
+          <label className="inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only"
+              checked={showDevToolsIcon}
+              onChange={handleToggleDevToolsIcon}
+            />
+            <div className="w-10 h-5 bg-gray-600 rounded-full relative">
+              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${showDevToolsIcon ? 'translate-x-5 bg-blue-500' : ''}`} />
             </div>
           </label>
         </div>
