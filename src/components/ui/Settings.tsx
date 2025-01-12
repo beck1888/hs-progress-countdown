@@ -38,7 +38,7 @@ const Settings: React.FC<SettingsProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="absolute bottom-4 right-16 bg-gray-800 p-4 rounded border border-gray-700 w-80 text-sm">
+    <div className="fixed bottom-4 right-4 md:right-16 bg-gray-800 p-4 rounded border border-gray-700 w-72 md:w-80 text-sm">
       <div className="mb-4">
         <h3 className="text-lg font-bold text-gray-300 mb-2">Display Options</h3>
         <div className="flex items-center justify-between mb-2">

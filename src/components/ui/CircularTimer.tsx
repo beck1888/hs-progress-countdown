@@ -30,11 +30,12 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
     : Math.round(percentage).toString();
 
   return (
-    <div className={`relative ${className}`} style={{ padding: '20px' }}>
+    <div className={`relative ${className}`} style={{ padding: '10px', maxWidth: '100%' }}>
       <svg 
         width={size + 40} 
         height={size + 40} 
         className="transform -rotate-90"
+        viewBox={`0 0 ${size + 40} ${size + 40}`} // Add viewBox for responsiveness
       >
         {/* Background circle */}
         <circle
