@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 interface InfoBoxProps {
   isOpen: boolean;
+  children?: React.ReactNode;
   startDate: Date;
   endDate: Date;
   onToggle: () => void;
-  children?: React.ReactNode;
 }
 
-const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, startDate, endDate, onToggle, children }) => {
+const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, children }) => {
   const [lastCommitId, setLastCommitId] = useState<string>("");
 
   useEffect(() => {

@@ -82,24 +82,19 @@ const CountdownPage = () => {
     setEnableTickingSound(!enableTickingSound);
   };
 
-  const calculatePercentage = () => {
-    const now = new Date();
-    const totalDuration = endDate.getTime() - startDate.getTime();
-    const elapsedDuration = now.getTime() - startDate.getTime();
-    const calculatedPercentage = (elapsedDuration / totalDuration) * 100;
-    return Math.max(0, Math.min(100, calculatedPercentage));
-  };
-
   useEffect(() => {
     const update = () => {
       const now = new Date();
-      setPercentage(calculatePercentage());
+      const totalDuration = endDate.getTime() - startDate.getTime();
+      const elapsedDuration = now.getTime() - startDate.getTime();
+      const calc = (elapsedDuration / totalDuration) * 100;
+      setPercentage(Math.max(0, Math.min(100, calc)));
       setTimeParts(getTimeDiff(now, endDate));
     };
     update();
     const timer = setInterval(update, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [startDate, endDate]);
 
   useEffect(() => {
     if (enableTickingSound) {
