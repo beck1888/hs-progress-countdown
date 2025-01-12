@@ -62,6 +62,19 @@ This project is a countdown timer for the KJHS Class of 2025 graduation built wi
 
 Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
 
+Some ideas for contributions include (if I don't get to them first because this is lowkey a roadmap instead of putting all this in a TODO):
+
+- Mobile optimizations
+- Better sound
+- A better settings UI
+- More customization options
+- Custom dates
+- Save settings to local storage
+- Add comments & documentation
+- Add FUNNY comments & documentation
+- Eater eggs
+- Anything else you can think of!
+
 ## Acknowledgments
 
 Emojis used in this project are provided by [Twemoji](https://twemoji.twitter.com/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
