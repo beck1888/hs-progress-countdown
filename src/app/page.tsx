@@ -10,10 +10,49 @@ interface CircularTimerProps {
   className?: string;
 }
 
+interface TimeParts {
+  years: number;
+  months: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+function getTimeDiff(start: Date, end: Date): TimeParts {
+  if (start >= end) return { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
+  let s = new Date(start.getTime());
+  let e = new Date(end.getTime());
+  let years = e.getFullYear() - s.getFullYear();
+  if (
+    e.getMonth() < s.getMonth() ||
+    (e.getMonth() === s.getMonth() && e.getDate() < s.getDate())
+  ) {
+    years--;
+  }
+  s.setFullYear(s.getFullYear() + years);
+  let months = e.getMonth() - s.getMonth();
+  if (months < 0) months += 12;
+  if (e.getDate() < s.getDate()) months--;
+  s.setMonth(s.getMonth() + months);
+  let days = Math.floor((e.getTime() - s.getTime()) / (1000 * 60 * 60 * 24));
+  s.setDate(s.getDate() + days);
+  let hours = Math.floor((e.getTime() - s.getTime()) / (1000 * 60 * 60));
+  s.setHours(s.getHours() + hours);
+  let minutes = Math.floor((e.getTime() - s.getTime()) / (1000 * 60));
+  s.setMinutes(s.getMinutes() + minutes);
+  let seconds = Math.floor((e.getTime() - s.getTime()) / 1000);
+  return { years, months, days, hours, minutes, seconds };
+}
+
+function pad(num: number): string {
+  return num.toString().padStart(2, "0");
+}
+
 const CircularTimer: React.FC<CircularTimerProps> = ({
   percentage,
-  size = 200,
-  strokeWidth = 12,
+  size = 320,
+  strokeWidth = 20,
   className = ''
 }) => {
   const radius = (size - strokeWidth) / 2;
@@ -21,16 +60,16 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
   const strokeDashOffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className}`} style={{ padding: '20px' }}>
       <svg 
-        width={size} 
-        height={size} 
+        width={size + 40} 
+        height={size + 40} 
         className="transform -rotate-90"
       >
         {/* Background circle */}
         <circle
-          cx={size / 2}
-          cy={size / 2}
+          cx={(size + 40) / 2}
+          cy={(size + 40) / 2}
           r={radius}
           className="stroke-gray-700"
           strokeWidth={strokeWidth}
@@ -38,17 +77,18 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
         />
         {/* Progress circle */}
         <circle
-          cx={size / 2}
-          cy={size / 2}
+          cx={(size + 40) / 2}
+          cy={(size + 40) / 2}
           r={radius}
-          className="stroke-blue-500"
+          stroke="#0000ff"
           strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"
           style={{
             strokeDasharray: circumference,
             strokeDashoffset: strokeDashOffset,
-            transition: 'stroke-dashoffset 0.5s ease'
+            transition: 'stroke-dashoffset 0.5s ease',
+            filter: 'drop-shadow(0 0 15px rgba(0, 0, 255, 0.8))'
           }}
         />
       </svg>
@@ -63,7 +103,8 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
 
 const TimeElapsedPage = () => {
   const [percentage, setPercentage] = useState<number>(0);
-  const [currentTime, setCurrentTime] = useState<string>('');
+  const [timeParts, setTimeParts] = useState<TimeParts>({ years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [showDates, setShowDates] = useState(false);
   
   const startDate = new Date('2021-08-23T08:45:00');
   const endDate = new Date('2025-06-05T16:00:00');
@@ -76,60 +117,63 @@ const TimeElapsedPage = () => {
     return Math.max(0, Math.min(100, calculatedPercentage));
   };
 
-  const formatDate = (date: Date): string => {
-    return date.toLocaleString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true
-    });
-  };
-
   useEffect(() => {
-    setPercentage(calculatePercentage());
-    setCurrentTime(formatDate(new Date()));
-
-    const timer = setInterval(() => {
+    const update = () => {
+      const now = new Date();
       setPercentage(calculatePercentage());
-      setCurrentTime(formatDate(new Date()));
-    }, 1000);
-
+      setTimeParts(getTimeDiff(now, endDate));
+    };
+    update();
+    const timer = setInterval(update, 1000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8 text-white">
-      <Card className="max-w-xl mx-auto bg-gray-800 border-gray-700">
-        <CardHeader>
-          <CardTitle className="text-white">Time Elapsed Calculator</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <h3 className="font-medium text-gray-300">Freshman Kinnus:</h3>
-                <p className="text-white">August 23rd, 2025 at 8:45 AM</p>
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-300">Senior Graduation:</h3>
-                <p className="text-white">June 5th, 2025 at 4:00 PM</p>
-              </div>
+    <div className="min-h-screen bg-black p-8 text-white flex flex-col items-center">
+      <button
+        onClick={() => setShowDates(!showDates)}
+        className="absolute top-4 right-4 px-3 py-1 bg-gray-700 rounded hover:bg-gray-600"
+      >
+        Info
+      </button>
+      {showDates && (
+        <div className="absolute top-16 right-4 bg-gray-800 p-4 rounded border border-gray-700 w-64 text-sm">
+          <div>Start: {startDate.toLocaleString()}</div>
+          <div>End: {endDate.toLocaleString()}</div>
+        </div>
+      )}
+      <div className="flex flex-col items-center">
+        <CircularTimer percentage={percentage} />
+        <div className="mt-6 text-center space-y-2">
+          <h3 className="text-xl font-bold text-gray-300">Time Unit Graduation</h3>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
+              <div className="text-2xl font-bold">{pad(timeParts.years)}</div>
+              <div className="text-sm">Years</div>
             </div>
-            
-            {/* <div className="mt-6">
-              <h3 className="font-medium text-gray-300">Current Time:</h3>
-              <p className="text-white">{currentTime}</p>
-            </div> */}
-
-            <div className="mt-6 flex flex-col items-center">
-              <h3 className="font-medium text-gray-300 mb-4">Progress:</h3>
-              <CircularTimer percentage={percentage} />
+            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
+              <div className="text-2xl font-bold">{pad(timeParts.months)}</div>
+              <div className="text-sm">Months</div>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
+              <div className="text-2xl font-bold">{pad(timeParts.days)}</div>
+              <div className="text-sm">Days</div>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
+              <div className="text-2xl font-bold">{pad(timeParts.hours)}</div>
+              <div className="text-sm">Hours</div>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
+              <div className="text-2xl font-bold">{pad(timeParts.minutes)}</div>
+              <div className="text-sm">Minutes</div>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
+              <div className="text-2xl font-bold">{pad(timeParts.seconds)}</div>
+              <div className="text-sm">Seconds</div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
