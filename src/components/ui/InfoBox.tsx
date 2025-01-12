@@ -31,8 +31,8 @@ const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, children }) => {
 
   return (
     <div
-      className="absolute bottom-4 right-4 md:right-16 bg-gray-800 p-4 rounded border border-gray-700 w-[90%] max-w-sm text-sm overflow-auto max-h-[90vh]
-                 sm:fixed sm:inset-0 sm:w-full sm:h-full sm:m-0 sm:rounded-none sm:max-w-none sm:bg-gray-900 sm:z-50"
+      className="absolute bottom-4 right-4 md:right-16 bg-gray-800 bg-opacity-80 backdrop-blur-md p-6 rounded-lg border border-gray-700 w-[90%] max-w-sm text-sm overflow-auto max-h-[90vh]
+                 sm:fixed sm:inset-4 sm:w-auto sm:h-auto sm:m-4 sm:rounded-lg sm:max-w-none sm:bg-gray-900 sm:bg-opacity-80 sm:z-50"
     >
       <div><strong>Start:</strong> Monday, August 23rd, 2021 at 8:45 AM</div>
       <div><strong>End:</strong> Thursday, June 5th, 2025 at 4:00 PM</div>

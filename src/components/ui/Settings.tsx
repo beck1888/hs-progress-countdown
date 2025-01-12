@@ -64,8 +64,8 @@ const Settings: React.FC<SettingsProps> = ({
 
   return (
     <div
-      className="fixed bottom-4 right-4 md:right-16 bg-gray-800 p-4 rounded border border-gray-700 w-[90%] max-w-md text-sm overflow-auto max-h-[90vh]
-                 sm:fixed sm:inset-0 sm:w-full sm:h-full sm:m-0 sm:rounded-none sm:max-w-none sm:bg-gray-900 sm:z-50"
+      className="fixed bottom-4 right-4 md:right-16 bg-gray-800 bg-opacity-80 backdrop-blur-md p-6 rounded-lg border border-gray-700 w-[90%] max-w-md text-sm overflow-auto max-h-[90vh]
+                 sm:fixed sm:inset-4 sm:w-auto sm:h-auto sm:m-4 sm:rounded-lg sm:max-w-none sm:bg-gray-900 sm:bg-opacity-80 sm:z-50"
     >
       <div className="mb-4">
         <h3 className="text-lg font-bold text-gray-300 mb-2">Display Options</h3>
