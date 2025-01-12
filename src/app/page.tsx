@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import InfoBox from "@/components/ui/InfoBox";
 import Settings from "@/components/ui/Settings";
 import DigitalCountdown from "@/components/ui/DigitalCountdown";
-import InfoIcon from "@/public/icons/info.svg";
-import SettingsIcon from "@/public/icons/settings.svg";
+
+import Image from 'next/image';
+import InfoIcon from "../../public/icons/info.png";
+import SettingsIcon from "../../public/icons/settings.png";
+import CloseIcon from "../../public/icons/close.png";
 
 interface CircularTimerProps {
   percentage: number;
@@ -93,7 +95,7 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
             strokeDasharray: circumference,
             strokeDashoffset: strokeDashOffset,
             transition: 'stroke-dashoffset 0.5s ease',
-            filter: 'drop-shadow(0 0 15px rgba(0, 0, 255, 0.8))'
+            filter: 'drop-shadow(0 0 15px rgba(0, 145, 255, 0.8))'
           }}
         />
       </svg>
@@ -176,7 +178,6 @@ const TimeElapsedPage = () => {
         endDate={endDate} 
         onToggle={handleToggleInfo}
       />
-      <img src={InfoIcon} alt="Info" className="w-6 h-6" onClick={handleToggleInfo} />
       <Settings
         isOpen={showSettings}
         decimals={showDecimals}
@@ -186,7 +187,20 @@ const TimeElapsedPage = () => {
         onToggleDigital={handleToggleDigital}
         onToggleRing={handleToggleRing}
       />
-      <img src={SettingsIcon} alt="Settings" className="w-6 h-6" />
+      <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
+        <button
+          onClick={handleToggleInfo}
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showInfoBox ? 'bg-red-500 hover:bg-red-400' : 'bg-gray-700 hover:bg-gray-600'}`}
+        >
+          <Image src={showInfoBox ? CloseIcon : InfoIcon} alt="Info" />
+        </button>
+        <button
+          onClick={handleToggleSettings}
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showSettings ? 'bg-red-500 hover:bg-red-400' : 'bg-gray-700 hover:bg-gray-600'}`}
+        >
+          <Image src={showSettings ? CloseIcon : SettingsIcon} alt="Settings" />
+        </button>
+      </div>
       <div className="flex flex-col items-center mt-8">
         {showRing && (
           <CircularTimer
