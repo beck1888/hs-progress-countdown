@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import InfoBox from "@/components/ui/InfoBox";
 import Settings from "@/components/ui/Settings";
 import DigitalCountdown from "@/components/ui/DigitalCountdown";
@@ -36,6 +36,8 @@ const CountdownPage = () => {
   const [showText, setShowText] = useState(true); // New state
   const [roundingMethod, setRoundingMethod] = useState<'floor' | 'nearest'>('floor'); // New state
   const [showHeaders, setShowHeaders] = useState(false); // Set to false by default
+  const [enableTickingSound, setEnableTickingSound] = useState(false); // New state
+  const tickingSoundRef = useRef<HTMLAudioElement | null>(null); // New ref
 
   // Toggle handlers for InfoBox and Settings so only one can be open at a time
   const handleToggleInfo = () => {
@@ -76,6 +78,10 @@ const CountdownPage = () => {
     setShowHeaders(!showHeaders);
   };
 
+  const handleToggleTickingSound = () => {
+    setEnableTickingSound(!enableTickingSound);
+  };
+
   const calculatePercentage = () => {
     const now = new Date();
     const totalDuration = endDate.getTime() - startDate.getTime();
@@ -94,6 +100,19 @@ const CountdownPage = () => {
     const timer = setInterval(update, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (enableTickingSound) {
+      if (!tickingSoundRef.current) {
+        tickingSoundRef.current = new Audio('/audio/clock_tick.mp3');
+        tickingSoundRef.current.loop = true;
+      }
+      tickingSoundRef.current.play();
+    } else if (tickingSoundRef.current) {
+      tickingSoundRef.current.pause();
+      tickingSoundRef.current.currentTime = 0;
+    }
+  }, [enableTickingSound]);
 
   return (
     <div className="min-h-screen bg-black p-8 text-white flex flex-col items-center">
@@ -128,12 +147,14 @@ const CountdownPage = () => {
         showRing={showRing}
         showText={showText} // New prop
         showHeaders={showHeaders}
+        enableTickingSound={enableTickingSound} // New prop
         roundingMethod={roundingMethod} // New prop
         onToggleDecimals={handleToggleDecimals}
         onToggleDigital={handleToggleDigital}
         onToggleRing={handleToggleRing}
         onToggleText={handleToggleText} // New prop
         onToggleHeaders={handleToggleHeaders}
+        onToggleTickingSound={handleToggleTickingSound} // New prop
         onChangeRoundingMethod={handleChangeRoundingMethod} // New prop
       />
       <div className="absolute bottom-4 right-4 flex flex-col space-y-2">

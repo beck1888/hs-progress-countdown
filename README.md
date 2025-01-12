@@ -1,6 +1,6 @@
 # Graduation Countdown
 
-This project is a countdown timer for the KJHS Class of 2025 graduation. It features a digital countdown, a circular timer, and various customization options.
+This project is a countdown timer for the KJHS Class of 2025 graduation built with Next JS. It features a digital countdown, a circular timer, and various customization options.
 
 ## Features
 
@@ -65,3 +65,6 @@ Contributions are welcome! If you have any ideas, suggestions, or bug reports, p
 ## Acknowledgments
 
 Emojis used in this project are provided by [Twemoji](https://twemoji.twitter.com/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+
+Sound Effect of clock ticking by [freesound_community](https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=76043) from [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=76043)

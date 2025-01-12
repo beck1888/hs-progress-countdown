@@ -6,13 +6,15 @@ interface SettingsProps {
   showDigital: boolean;
   showRing: boolean;
   showText: boolean; 
-  showHeaders: boolean; // Add this
+  showHeaders: boolean; 
+  enableTickingSound: boolean; // Add this
   roundingMethod: 'floor' | 'nearest'; 
   onToggleDecimals: () => void;
   onToggleDigital: () => void;
   onToggleRing: () => void;
   onToggleText: () => void; 
-  onToggleHeaders: () => void; // Add this
+  onToggleHeaders: () => void; 
+  onToggleTickingSound: () => void; // Add this
   onChangeRoundingMethod: (method: 'floor' | 'nearest') => void; 
 }
 
@@ -22,13 +24,15 @@ const Settings: React.FC<SettingsProps> = ({
   showDigital,
   showRing,
   showText, 
-  showHeaders, // Add this
+  showHeaders, 
+  enableTickingSound, // Add this
   roundingMethod, 
   onToggleDecimals,
   onToggleDigital,
   onToggleRing,
   onToggleText, 
-  onToggleHeaders, // Add this
+  onToggleHeaders, 
+  onToggleTickingSound, // Add this
   onChangeRoundingMethod, 
 }) => {
   if (!isOpen) return null;
@@ -99,6 +103,20 @@ const Settings: React.FC<SettingsProps> = ({
             </div>
           </label>
         </div>
+        <div className="flex items-center justify-between mb-2">
+          <span>Enable ticking sound?</span>
+          <label className="inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only"
+              checked={enableTickingSound}
+              onChange={onToggleTickingSound}
+            />
+            <div className="w-10 h-5 bg-gray-600 rounded-full relative">
+              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${enableTickingSound ? 'translate-x-5 bg-blue-500' : ''}`} />
+            </div>
+          </label>
+        </div>
       </div>
       <div>
         <h3 className="text-lg font-bold text-gray-300 mb-2">Precision</h3>
@@ -112,7 +130,7 @@ const Settings: React.FC<SettingsProps> = ({
               onChange={onToggleDecimals}
             />
             <div className="w-10 h-5 bg-gray-600 rounded-full relative">
-              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${decimals ? 'translate-x-5 bg-blue-300' : ''}`} />
+              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${decimals ? 'translate-x-5 bg-blue-500' : ''}`} />
             </div>
           </label>
         </div>
