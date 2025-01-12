@@ -5,13 +5,15 @@ interface SettingsProps {
   decimals: boolean;
   showDigital: boolean;
   showRing: boolean;
-  showText: boolean; // New prop
-  roundingMethod: 'floor' | 'nearest'; // New prop
+  showText: boolean; 
+  showHeaders: boolean; // Add this
+  roundingMethod: 'floor' | 'nearest'; 
   onToggleDecimals: () => void;
   onToggleDigital: () => void;
   onToggleRing: () => void;
-  onToggleText: () => void; // New prop
-  onChangeRoundingMethod: (method: 'floor' | 'nearest') => void; // New prop
+  onToggleText: () => void; 
+  onToggleHeaders: () => void; // Add this
+  onChangeRoundingMethod: (method: 'floor' | 'nearest') => void; 
 }
 
 const Settings: React.FC<SettingsProps> = ({
@@ -19,13 +21,15 @@ const Settings: React.FC<SettingsProps> = ({
   decimals,
   showDigital,
   showRing,
-  showText, // New prop
-  roundingMethod, // New prop
+  showText, 
+  showHeaders, // Add this
+  roundingMethod, 
   onToggleDecimals,
   onToggleDigital,
   onToggleRing,
-  onToggleText, // New prop
-  onChangeRoundingMethod, // New prop
+  onToggleText, 
+  onToggleHeaders, // Add this
+  onChangeRoundingMethod, 
 }) => {
   if (!isOpen) return null;
 
@@ -46,7 +50,7 @@ const Settings: React.FC<SettingsProps> = ({
               }}
             />
             <div className="w-10 h-5 bg-gray-600 rounded-full relative">
-              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${showRing ? 'translate-x-5 bg-blue-300' : ''}`} />
+              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${showRing ? 'translate-x-5 bg-blue-500' : ''}`} />
             </div>
           </label>
         </div>
@@ -63,7 +67,7 @@ const Settings: React.FC<SettingsProps> = ({
               }}
             />
             <div className="w-10 h-5 bg-gray-600 rounded-full relative">
-              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${showDigital ? 'translate-x-5 bg-blue-300' : ''}`} />
+              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${showDigital ? 'translate-x-5 bg-blue-500' : ''}`} />
             </div>
           </label>
         </div>
@@ -77,7 +81,21 @@ const Settings: React.FC<SettingsProps> = ({
               onChange={onToggleText}
             />
             <div className="w-10 h-5 bg-gray-600 rounded-full relative">
-              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${showText ? 'translate-x-5 bg-blue-300' : ''}`} />
+              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${showText ? 'translate-x-5 bg-blue-500' : ''}`} />
+            </div>
+          </label>
+        </div>
+        <div className="flex items-center justify-between mb-2">
+          <span>Show Headers</span>
+          <label className="inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only"
+              checked={showHeaders}
+              onChange={onToggleHeaders}
+            />
+            <div className="w-10 h-5 bg-gray-600 rounded-full relative">
+              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${showHeaders ? 'translate-x-5 bg-blue-500' : ''}`} />
             </div>
           </label>
         </div>

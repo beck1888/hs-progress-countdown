@@ -1,4 +1,3 @@
-
 import React from "react";
 
 interface CircularTimerProps {
@@ -13,8 +12,8 @@ interface CircularTimerProps {
 
 const CircularTimer: React.FC<CircularTimerProps> = ({
   percentage,
-  size = 320,
-  strokeWidth = 20,
+  size = 400, // Increased from 320
+  strokeWidth = 24, // Increased from 20
   className = '',
   showText,
   showDecimals,

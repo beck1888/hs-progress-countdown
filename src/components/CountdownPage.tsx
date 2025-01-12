@@ -35,6 +35,7 @@ const CountdownPage = () => {
   const [showRing, setShowRing] = useState(true);
   const [showText, setShowText] = useState(true); // New state
   const [roundingMethod, setRoundingMethod] = useState<'floor' | 'nearest'>('floor'); // New state
+  const [showHeaders, setShowHeaders] = useState(false); // Set to false by default
 
   // Toggle handlers for InfoBox and Settings so only one can be open at a time
   const handleToggleInfo = () => {
@@ -71,6 +72,10 @@ const CountdownPage = () => {
     setRoundingMethod(method);
   };
 
+  const handleToggleHeaders = () => {
+    setShowHeaders(!showHeaders);
+  };
+
   const calculatePercentage = () => {
     const now = new Date();
     const totalDuration = endDate.getTime() - startDate.getTime();
@@ -92,9 +97,24 @@ const CountdownPage = () => {
 
   return (
     <div className="min-h-screen bg-black p-8 text-white flex flex-col items-center">
-      <h1 className="text-4xl font-bold text-white mb-8" style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))' }}>
-        Class of 2025 Graduation Countdown
-      </h1>
+      {showHeaders && (
+        <>
+          <h1 className="text-2xl font-semibold mb-2 bg-black/30 backdrop-blur-sm px-6 py-2 rounded-lg text-red-500" 
+              style={{ 
+                filter: 'drop-shadow(0 0 5px rgba(239, 68, 68, 0.5))',
+                border: '1px solid rgba(239, 68, 68, 0.2)'
+              }}>
+            Graduation Countdown
+          </h1>
+          <h2 className="text-4xl font-bold mb-4 bg-black/30 backdrop-blur-sm px-8 py-3 rounded-lg text-yellow-400" 
+              style={{ 
+                filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.5))',
+                border: '1px solid rgba(251, 191, 36, 0.2)'
+              }}>
+            KJHS Class of 2025
+          </h2>
+        </>
+      )}
       <InfoBox 
         isOpen={showInfoBox} 
         startDate={startDate} 
@@ -107,11 +127,13 @@ const CountdownPage = () => {
         showDigital={showDigital}
         showRing={showRing}
         showText={showText} // New prop
+        showHeaders={showHeaders}
         roundingMethod={roundingMethod} // New prop
         onToggleDecimals={handleToggleDecimals}
         onToggleDigital={handleToggleDigital}
         onToggleRing={handleToggleRing}
         onToggleText={handleToggleText} // New prop
+        onToggleHeaders={handleToggleHeaders}
         onChangeRoundingMethod={handleChangeRoundingMethod} // New prop
       />
       <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
@@ -128,13 +150,14 @@ const CountdownPage = () => {
           <Image src={showSettings ? CloseIcon : SettingsIcon} alt="Settings" />
         </button>
       </div>
-      <div className="flex flex-col items-center mt-8">
+      <div className="flex flex-col items-center mt-4"> {/* Reduced from mt-8 */}
         {showRing && (
           <CircularTimer
             percentage={percentage}
             showText={showText} // New prop
             showDecimals={showDecimals} // New prop
             roundingMethod={roundingMethod} // New prop
+            className="mb-8" // Add spacing between components
           />
         )}
         {showDigital && (
