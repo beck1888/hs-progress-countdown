@@ -7,14 +7,16 @@ interface SettingsProps {
   showRing: boolean;
   showText: boolean; 
   showHeaders: boolean; 
-  enableTickingSound: boolean; // Add this
+  enableTickingSound: boolean; 
+  useNewBranding: boolean; // Add this
   roundingMethod: 'floor' | 'nearest'; 
   onToggleDecimals: () => void;
   onToggleDigital: () => void;
   onToggleRing: () => void;
   onToggleText: () => void; 
   onToggleHeaders: () => void; 
-  onToggleTickingSound: () => void; // Add this
+  onToggleTickingSound: () => void; 
+  onToggleBranding: () => void; // Add this
   onChangeRoundingMethod: (method: 'floor' | 'nearest') => void; 
 }
 
@@ -25,14 +27,16 @@ const Settings: React.FC<SettingsProps> = ({
   showRing,
   showText, 
   showHeaders, 
-  enableTickingSound, // Add this
+  enableTickingSound, 
+  useNewBranding, // Add this
   roundingMethod, 
   onToggleDecimals,
   onToggleDigital,
   onToggleRing,
   onToggleText, 
   onToggleHeaders, 
-  onToggleTickingSound, // Add this
+  onToggleTickingSound, 
+  onToggleBranding, // Add this
   onChangeRoundingMethod, 
 }) => {
   if (!isOpen) return null;
@@ -114,6 +118,20 @@ const Settings: React.FC<SettingsProps> = ({
             />
             <div className="w-10 h-5 bg-gray-600 rounded-full relative">
               <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${enableTickingSound ? 'translate-x-5 bg-blue-500' : ''}`} />
+            </div>
+          </label>
+        </div>
+        <div className="flex items-center justify-between mb-2">
+          <span>Use new branding?</span>
+          <label className="inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only"
+              checked={useNewBranding}
+              onChange={onToggleBranding}
+            />
+            <div className="w-10 h-5 bg-gray-600 rounded-full relative">
+              <div className={`absolute left-0 top-0 w-5 h-5 bg-white rounded-full transform transition-all ${useNewBranding ? 'translate-x-5 bg-blue-500' : ''}`} />
             </div>
           </label>
         </div>

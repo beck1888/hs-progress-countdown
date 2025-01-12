@@ -44,6 +44,7 @@ const CountdownPage = () => {
   const [roundingMethod, setRoundingMethod] = useState<'floor' | 'nearest'>('floor');
   const [showHeaders, setShowHeaders] = useState(false);
   const [enableTickingSound, setEnableTickingSound] = useState(false);
+  const [useNewBranding, setUseNewBranding] = useState(false); // Add this
   const tickingSoundRef = useRef<HTMLAudioElement | null>(null);
 
   const handleToggleInfo = () => {
@@ -56,19 +57,67 @@ const CountdownPage = () => {
     if (!showSettings) setShowInfoBox(false);
   };
 
-  const handleToggleDecimals = () => setShowDecimals(!showDecimals);
+  const handleToggleDecimals = () => {
+    setShowDecimals((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("showDecimals", JSON.stringify(newValue));
+      return newValue;
+    });
+  };
+
   const handleToggleDigital = () => {
-    if (showDigital && !showRing) setShowRing(true);
-    setShowDigital(!showDigital);
+    setShowDigital((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("showDigital", JSON.stringify(newValue));
+      return newValue;
+    });
   };
+
   const handleToggleRing = () => {
-    if (showRing && !showDigital) setShowDigital(true);
-    setShowRing(!showRing);
+    setShowRing((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("showRing", JSON.stringify(newValue));
+      return newValue;
+    });
   };
-  const handleToggleText = () => setShowText(!showText);
-  const handleChangeRoundingMethod = (method: 'floor' | 'nearest') => setRoundingMethod(method);
-  const handleToggleHeaders = () => setShowHeaders(!showHeaders);
-  const handleToggleTickingSound = () => setEnableTickingSound(!enableTickingSound);
+
+  const handleToggleText = () => {
+    setShowText((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("showText", JSON.stringify(newValue));
+      return newValue;
+    });
+  };
+
+  const handleChangeRoundingMethod = (method: 'floor' | 'nearest') => {
+    setRoundingMethod(method);
+    localStorage.setItem("roundingMethod", method);
+  };
+
+  const handleToggleHeaders = () => {
+    setShowHeaders((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("showHeaders", JSON.stringify(newValue));
+      return newValue;
+    });
+  };
+
+  const handleToggleTickingSound = () => {
+    setEnableTickingSound((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("enableTickingSound", JSON.stringify(newValue));
+      return newValue;
+    });
+  };
+
+  const handleToggleBranding = () => {
+    setUseNewBranding((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("useNewBranding", JSON.stringify(newValue));
+      window.location.reload(); // Refresh the page
+      return newValue;
+    });
+  };
 
   // Move the update logic outside of useEffect to prevent infinite loops
   const updateCountdown = () => {
@@ -112,6 +161,17 @@ const CountdownPage = () => {
     }
   }, [enableTickingSound]);
 
+  useEffect(() => {
+    setShowDecimals(JSON.parse(localStorage.getItem("showDecimals") || "true"));
+    setShowDigital(JSON.parse(localStorage.getItem("showDigital") || "true"));
+    setShowRing(JSON.parse(localStorage.getItem("showRing") || "true"));
+    setShowText(JSON.parse(localStorage.getItem("showText") || "true"));
+    setRoundingMethod(localStorage.getItem("roundingMethod") as 'floor' | 'nearest' || 'floor');
+    setShowHeaders(JSON.parse(localStorage.getItem("showHeaders") || "false"));
+    setEnableTickingSound(JSON.parse(localStorage.getItem("enableTickingSound") || "false"));
+    setUseNewBranding(JSON.parse(localStorage.getItem("useNewBranding") || "false"));
+  }, []);
+
   return (
     <div className="min-h-screen bg-black p-4 md:p-8 text-white flex flex-col items-center">
       {showHeaders && (
@@ -132,7 +192,7 @@ const CountdownPage = () => {
               border: '1px solid rgba(251, 191, 36, 0.2)'
             }}
           >
-            KJHS Class of 2025
+            {useNewBranding ? 'KHS Class of 2025' : 'KJHS Class of 2025'}
           </h2>
         </>
       )}
@@ -157,7 +217,9 @@ const CountdownPage = () => {
         onToggleText={handleToggleText}
         onToggleHeaders={handleToggleHeaders}
         onToggleTickingSound={handleToggleTickingSound}
-        onChangeRoundingMethod={handleChangeRoundingMethod}
+        useNewBranding={useNewBranding} // Add this
+        onToggleBranding={handleToggleBranding} // Add this
+        onChangeRoundingMethod={handleChangeRoundingMethod} // Add this
       />
       <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
         <button
