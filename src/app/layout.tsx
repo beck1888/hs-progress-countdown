@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Graduation Countdown",
+  title: "KJHS Graduation Countdown",
   description: "A countdown to when the class of 2025 graduates KJHS.",
 };
 
