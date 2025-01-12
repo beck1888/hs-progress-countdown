@@ -3,6 +3,10 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import InfoBox from "@/components/ui/InfoBox";
+import Settings from "@/components/ui/Settings";
+import DigitalCountdown from "@/components/ui/DigitalCountdown";
+import InfoIcon from "@/public/icons/info.svg";
+import SettingsIcon from "@/public/icons/settings.svg";
 
 interface CircularTimerProps {
   percentage: number;
@@ -94,7 +98,7 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
         />
       </svg>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-        <p className="text-2xl font-bold text-white">
+        <p className="text-4xl font-bold text-white transition-all duration-300">
           {percentage.toFixed(2)}%
         </p>
       </div>
@@ -109,6 +113,39 @@ const TimeElapsedPage = () => {
   const startDate = new Date('2021-08-23T08:45:00');
   const endDate = new Date('2025-06-05T16:00:00');
   
+  const [showInfoBox, setShowInfoBox] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showDecimals, setShowDecimals] = useState(true);
+  const [showDigital, setShowDigital] = useState(true);
+  const [showRing, setShowRing] = useState(true);
+
+  // Toggle handlers for InfoBox and Settings so only one can be open at a time
+  const handleToggleInfo = () => {
+    setShowInfoBox(!showInfoBox);
+    if (!showInfoBox) setShowSettings(false);
+  };
+  const handleToggleSettings = () => {
+    setShowSettings(!showSettings);
+    if (!showSettings) setShowInfoBox(false);
+  };
+
+  // Handlers for the Settings toggles
+  const handleToggleDecimals = () => {
+    setShowDecimals(!showDecimals);
+  };
+  const handleToggleDigital = () => {
+    // If turning off digital and ring is already off, re-enable digital
+    if (showDigital && !showRing) return;
+    setShowDigital(!showDigital);
+    if (!showDigital) setShowRing(true);
+  };
+  const handleToggleRing = () => {
+    // If turning off ring and digital is already off, re-enable ring
+    if (showRing && !showDigital) return;
+    setShowRing(!showRing);
+    if (!showRing) setShowDigital(true);
+  };
+
   const calculatePercentage = () => {
     const now = new Date();
     const totalDuration = endDate.getTime() - startDate.getTime();
@@ -133,37 +170,35 @@ const TimeElapsedPage = () => {
       <h1 className="text-4xl font-bold text-white mb-8" style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))' }}>
         Class of 2025 Graduation Countdown
       </h1>
-      <InfoBox startDate={startDate} endDate={endDate} />
-      <div className="flex flex-col items-center">
-        <CircularTimer percentage={percentage} />
-        <div className="mt-6 text-center space-y-2">
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
-              <div className="text-2xl font-bold">{pad(timeParts.years)}</div>
-              <div className="text-sm">Years</div>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
-              <div className="text-2xl font-bold">{pad(timeParts.months)}</div>
-              <div className="text-sm">Months</div>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
-              <div className="text-2xl font-bold">{pad(timeParts.days)}</div>
-              <div className="text-sm">Days</div>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
-              <div className="text-2xl font-bold">{pad(timeParts.hours)}</div>
-              <div className="text-sm">Hours</div>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
-              <div className="text-2xl font-bold">{pad(timeParts.minutes)}</div>
-              <div className="text-sm">Minutes</div>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
-              <div className="text-2xl font-bold">{pad(timeParts.seconds)}</div>
-              <div className="text-sm">Seconds</div>
-            </div>
-          </div>
-        </div>
+      <InfoBox 
+        isOpen={showInfoBox} 
+        startDate={startDate} 
+        endDate={endDate} 
+        onToggle={handleToggleInfo}
+      />
+      <img src={InfoIcon} alt="Info" className="w-6 h-6" onClick={handleToggleInfo} />
+      <Settings
+        isOpen={showSettings}
+        decimals={showDecimals}
+        showDigital={showDigital}
+        showRing={showRing}
+        onToggleDecimals={handleToggleDecimals}
+        onToggleDigital={handleToggleDigital}
+        onToggleRing={handleToggleRing}
+      />
+      <img src={SettingsIcon} alt="Settings" className="w-6 h-6" />
+      <div className="flex flex-col items-center mt-8">
+        {showRing && (
+          <CircularTimer
+            percentage={showDecimals ? percentage : parseFloat(percentage.toFixed(0))}
+          />
+        )}
+        {showDigital && (
+          <DigitalCountdown
+            timeParts={timeParts}
+            pad={pad}
+          />
+        )}
       </div>
     </div>
   );
