@@ -6,6 +6,7 @@ import Settings from "@/components/ui/Settings";
 import DigitalCountdown from "@/components/ui/DigitalCountdown";
 import CircularTimer from "@/components/ui/CircularTimer";
 import DevTools from "@/components/ui/DevTools"; // Add this
+import SmallScreenWarning from '@/components/ui/SmallScreenWarning';
 import { getTimeDiff, pad } from "@/utils/time";
 
 import Image from "next/image";
@@ -199,6 +200,7 @@ const CountdownPage = () => {
 
   return (
     <div className="min-h-screen bg-black p-4 md:p-8 text-white flex flex-col items-center">
+      <SmallScreenWarning />
       {showHeaders && (
         <>
           <h1 

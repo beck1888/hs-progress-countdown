@@ -30,7 +30,10 @@ const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute bottom-4 right-16 bg-gray-800 p-4 rounded border border-gray-700 w-80 text-sm">
+    <div
+      className="absolute bottom-4 right-4 md:right-16 bg-gray-800 p-4 rounded border border-gray-700 w-[90%] max-w-sm text-sm overflow-auto max-h-[90vh]
+                 sm:fixed sm:inset-0 sm:w-full sm:h-full sm:m-0 sm:rounded-none sm:max-w-none sm:bg-gray-900 sm:z-50"
+    >
       <div><strong>Start:</strong> Monday, August 23rd, 2021 at 8:45 AM</div>
       <div><strong>End:</strong> Thursday, June 5th, 2025 at 4:00 PM</div>
       <div className="mt-2">

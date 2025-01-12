@@ -38,7 +38,7 @@ export default function RootLayout({
         <meta name="description" content="A countdown to when the class of 2025 graduates." />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen container mx-auto px-4`}
       >
         {children}
       </body>

@@ -30,7 +30,7 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
     : Math.round(percentage).toString();
 
   return (
-    <div className={`relative ${className}`} style={{ padding: '10px', maxWidth: '100%' }}>
+    <div className={`relative ${className} mx-auto w-full max-w-[440px] h-auto`} style={{ padding: '10px' }}>
       <svg 
         width={size + 40} 
         height={size + 40} 
@@ -65,13 +65,13 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
       </svg>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
         {showText && (
-          <p className="text-sm text-gray-400">The class of 2025 is</p>
+          <p className="text-sm text-gray-400">The Kehillah Class of 2025 is</p>
         )}
         <p className="text-4xl font-bold text-white transition-all duration-300">
           {displayPercentage}%
         </p>
         {showText && (
-          <p className="text-sm text-gray-400">done with high school</p>
+          <p className="text-sm text-gray-400">Done With High School</p>
         )}
       </div>
     </div>
