@@ -130,6 +130,9 @@ const TimeElapsedPage = () => {
 
   return (
     <div className="min-h-screen bg-black p-8 text-white flex flex-col items-center">
+      <h1 className="text-4xl font-bold text-white mb-8" style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.8))' }}>
+        Class of 2025 Graduation Countdown
+      </h1>
       <button
         onClick={() => setShowDates(!showDates)}
         className="absolute top-4 right-4 px-3 py-1 bg-gray-700 rounded hover:bg-gray-600"
@@ -145,7 +148,6 @@ const TimeElapsedPage = () => {
       <div className="flex flex-col items-center">
         <CircularTimer percentage={percentage} />
         <div className="mt-6 text-center space-y-2">
-          <h3 className="text-xl font-bold text-gray-300">Time Unit Graduation</h3>
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-white">
               <div className="text-2xl font-bold">{pad(timeParts.years)}</div>
