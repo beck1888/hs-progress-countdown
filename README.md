@@ -1,4 +1,8 @@
-# Graduation Countdown
+# [Graduation Countdown](https://www.kehillah2025.today/)
+
+*Main link* [kehillah2025.today](https://www.kehillah2025.today/)
+
+*Alt link:* [https://www.kehillah2025.today/](https://www.kehillah2025.today/)
 
 This project is a countdown timer for the KJHS Class of 2025 graduation built with Next JS. It features a digital countdown, a circular timer, and various customization options.
 
@@ -81,3 +85,7 @@ Emojis used in this project are provided by [Twemoji](https://twemoji.twitter.co
 
 
 Sound Effect of clock ticking by [freesound_community](https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=76043) from [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=76043)
+
+## License
+
+Do whatever you want with this project. It's yours now. Have fun! Just make sure to properly attribute the sources of the emojis and sound effects if you use them in your own projects. Give me credit if you want, but it's not necessary.
