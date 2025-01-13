@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #000;
+}
+
+.neonText {
+  color: var(--neon-blue);
+  text-shadow: 0 0 2px var(--neon-blue), 0 0 4px var(--neon-blue), 0 0 8px var(--neon-blue), 0 0 16px var(--neon-blue);
+  font-size: 10rem;
+}
+
+.messageBox {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: #ffffff; /* Change explanation text to white */
+}
+
+.backButton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  color: var(--neon-blue);
+  border: 2px solid var(--neon-blue);
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.backButton:hover {
+  background-color: var(--neon-blue);
+  color: #000;
+}
