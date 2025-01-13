@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 interface InfoBoxProps {
   isOpen: boolean;
@@ -52,6 +53,12 @@ const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, children }) => {
       </div>
       <div><strong>Build:</strong> {process.env.NEXT_PUBLIC_RUNNING_BUILD}</div>
       <div><strong>Client Type:</strong> {clientType}</div>
+      <footer className="absolute bottom-2 w-full text-center text-white text-xs opacity-30">
+          This site is not affiliated with <a href="https://kehillah.org/" target="_blank" className="underline">Kehillah</a> nor <a href="https://kehillah.today/" target="_blank" className="underline">kehillah.today</a> and may not reflect most current dates.
+          <br />
+          &copy; 2025 <a href="https://github.com/beck1888" target="_blank" className="underline">Beck Orion</a>. | <a href="https://docs.google.com/forms/d/e/1FAIpQLSfvxpGIi-Gi2LJDD_VLIX3U3wmdFmX2pjhosUZGYhTnGpKZlQ/viewform?usp=header" target="_blank" className="underline">Contact</a> | This developer stands with <a href="https://www.standwithus.com/" target="_blank" className="underline">Israel</a>. 
+          <Image src="/icons/israel.svg" alt="Israel flag" width={16} height={16} className="inline ml-1 align-text-bottom brightness-110" />
+        </footer>
       {children}
     </div>
   );
