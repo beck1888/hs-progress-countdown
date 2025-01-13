@@ -17,11 +17,16 @@
 
 4. **Add Comments & Documentation** 📚  
    - Include clear explanations for all code.  
-   - Highlight key areas for easier future contributions.  
+   - Highlight key areas for easier future contributions. 
+
+5. **Get Dev Tools Working on Vercel Deployment** 🛠️  
+   - Ensure the dev tools work on the live site.
+    <!--TBH they may also be broken on the dev build  -->
 
 ## Medium Priority 🚀
 5. **Custom End Timer Screen** ⏰  
    - Create a unique, user-friendly screen when the countdown ends.  
+   - Play "The Final Countdown" or another celebratory sound in the minutes leading up to the end.
 
 6. **More Customization Options** ✨  
    - Allow users to tweak fonts, colors, and animation styles.  
