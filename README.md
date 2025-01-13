@@ -6,6 +6,8 @@
 
 This project is a countdown timer for the KJHS Class of 2025 graduation built with Next JS. It features a digital countdown, a circular timer, and various customization options.
 
+![Screenshot of Home Page](/public/readme_assets/homepage.png)
+
 ## Features
 
 - Digital countdown display
