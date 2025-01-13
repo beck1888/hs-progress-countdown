@@ -10,6 +10,7 @@ interface InfoBoxProps {
 
 const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, children }) => {
   const [lastCommitId, setLastCommitId] = useState<string>("");
+  const [clientType, setClientType] = useState<string>("");
 
   useEffect(() => {
     const fetchLastCommitId = async () => {
@@ -27,6 +28,15 @@ const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, children }) => {
     fetchLastCommitId();
   }, []);
 
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    if (/Mobi|Android/i.test(userAgent)) {
+      setClientType("Mobile");
+    } else {
+      setClientType("Desktop");
+    }
+  }, []);
+
   if (!isOpen) return null;
 
   return (
@@ -40,6 +50,7 @@ const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, children }) => {
         <strong>Version:</strong> <a href="https://github.com/beck1888/hs-progress-countdown" target="_blank" className='underline' rel="noopener noreferrer">{lastCommitId}</a>
       </div>
       <div><strong>Build:</strong> {process.env.NEXT_PUBLIC_RUNNING_BUILD}</div>
+      <div><strong>Client Type:</strong> {clientType}</div>
       {children}
     </div>
   );
