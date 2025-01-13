@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: {
     buildActivity: false,
-    // autoPrerender: false, // TO FIX: Key not recognized
+    appIsrStatus: false,
   },
   experimental: {
     // disableNextDevTools: true, // TO FIX: Key not recognized

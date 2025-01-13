@@ -154,13 +154,15 @@ const CountdownPage = () => {
         showDevToolsIcon={showDevToolsIcon}
         onToggleDevToolsIcon={() => setShowDevToolsIcon((prev) => !prev)}
       />
-      <div className="absolute bottom-4 right-4 flex flex-col space-y-4 z-50">
+      <div className="absolute bottom-4 left-4 z-50">
         <button
           onClick={() => setShowInfoBox(!showInfoBox)}
           className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showInfoBox ? "bg-red-500 hover:bg-red-400" : "bg-gray-700 hover:bg-gray-600"}`}
         >
           <Image src={showInfoBox ? CloseIcon : InfoIcon} alt="Info" />
         </button>
+      </div>
+      <div className="absolute bottom-4 right-4 z-50">
         <button
           onClick={() => setShowSettings(!showSettings)}
           className={`w-8 h-8 rounded-full flex items-center justify-center text-white hover:cursor-pointer transition-colors ${
