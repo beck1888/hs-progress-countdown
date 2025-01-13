@@ -22,6 +22,9 @@ type TimeParts = {
   seconds: number;
 };
 
+const startDate = new Date("2021-08-23T08:45:00");
+const endDate = new Date("2025-06-05T16:00:00");
+
 const CountdownPage = () => {
   const [percentage, setPercentage] = useState<number>(0);
   const [timeParts, setTimeParts] = useState<TimeParts>({
@@ -45,9 +48,6 @@ const CountdownPage = () => {
   const [useNewBranding, setUseNewBranding] = useState(false);
   const [showDevToolsIcon, setShowDevToolsIcon] = useState(false);
   const [showDevTools, setShowDevTools] = useState(false);
-
-  const startDate = new Date("2021-08-23T08:45:00");
-  const endDate = new Date("2025-06-05T16:00:00");
 
   const tickingSoundRef = useRef<HTMLAudioElement | null>(null);
 
@@ -76,7 +76,7 @@ const CountdownPage = () => {
     updateCountdown(); // Initial update
     const timer = setInterval(updateCountdown, 1000); // Update every second
     return () => clearInterval(timer); // Cleanup on unmount
-  }, []); // Runs only once on mount
+  }, [startDate, endDate]); // Add startDate and endDate to dependency array
 
   // Sync local storage state on mount
   useEffect(() => {
@@ -158,7 +158,7 @@ const CountdownPage = () => {
       {showDevToolsIcon && showDevTools && (
         <DevTools onClose={() => setShowDevTools(false)} />
       )}
-      <div className="absolute bottom-4 right-4 flex flex-col space-y-4">
+      <div className="absolute bottom-4 right-4 flex flex-col space-y-4 z-50">
         <button
           onClick={() => setShowInfoBox(!showInfoBox)}
           className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showInfoBox ? "bg-red-500 hover:bg-red-400" : "bg-gray-700 hover:bg-gray-600"}`}
@@ -167,7 +167,9 @@ const CountdownPage = () => {
         </button>
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showSettings ? "bg-red-500 hover:bg-red-400" : "bg-gray-700 hover:bg-gray-600"}`}
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-white hover:cursor-pointer transition-colors ${
+            showSettings ? "bg-red-500 hover:bg-red-400" : "bg-gray-700 hover:bg-gray-600"
+          }`}
         >
           <Image src={showSettings ? CloseIcon : SettingsIcon} alt="Settings" />
         </button>

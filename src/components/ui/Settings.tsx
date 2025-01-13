@@ -43,16 +43,6 @@ const Settings: React.FC<SettingsProps> = ({
   showDevToolsIcon,
   onToggleDevToolsIcon,
 }) => {
-  // Remove unused showDevTools state and effect
-  // const [showDevTools, setShowDevTools] = useState(false);
-  // useEffect(() => {
-  //   if (showDevToolsIcon) {
-  //     setShowDevTools(true);
-  //   } else {
-  //     setShowDevTools(false);
-  //   }
-  // }, [showDevToolsIcon]);
-
   const handleToggleDevToolsIcon = () => {
     onToggleDevToolsIcon();
     setTimeout(() => {
