@@ -62,22 +62,11 @@ This project is a countdown timer for the KJHS Class of 2025 graduation built wi
    yarn start
    ```
 
-## Contributing
+## Contributing and To-Do List
 
 Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
 
-Some ideas for contributions include (if I don't get to them first because this is lowkey a roadmap instead of putting all this in a TODO):
-
-- Mobile optimizations
-- Better sound
-- A better settings UI
-- More customization options
-- Custom dates
-- Save settings to local storage
-- Add comments & documentation
-- Add FUNNY comments & documentation
-- Eater eggs
-- Anything else you can think of!
+If you're looking for ways to contribute, here are some ideas: [todo list](todo.md)
 
 ## Acknowledgments
 
@@ -88,4 +77,4 @@ Sound Effect of clock ticking by [freesound_community](https://pixabay.com/users
 
 ## License
 
-Do whatever you want with this project. It's yours now. Have fun! Just make sure to properly attribute the sources of the emojis and sound effects if you use them in your own projects. Give me credit if you want, but it's not necessary.
+Please see the [LICENSE.md](LICENSE.md) file for details.
