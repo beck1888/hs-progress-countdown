@@ -1,6 +1,10 @@
 # TODO
 
 ## High Priority 🏆
+0. **Fix Deprecated and Missing Dependencies** 🛠️  
+   - The `punycode` module is deprecated. Please use a userland alternative instead.
+   - (In [CountdownPage](/src/components/CountdownPage.tsx)) React Hook useEffect has a missing dependency: 'updateCountdown'. Either include it or remove the dependency array.
+
 1. **Mobile Optimizations** 📱  
    - Ensure the countdown works smoothly on all screen sizes.  
    - Optimize layout for touch inputs.  
