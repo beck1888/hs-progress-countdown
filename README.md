@@ -26,7 +26,7 @@ This project is a countdown timer for the KJHS Class of 2025 graduation built wi
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/hs-progress-countdown.git
+   git clone https://github.com/beck1888/hs-progress-countdown.git
    cd hs-progress-countdown
    ```
 

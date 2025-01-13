@@ -5,7 +5,6 @@ import InfoBox from "@/components/ui/InfoBox";
 import Settings from "@/components/ui/Settings";
 import DigitalCountdown from "@/components/ui/DigitalCountdown";
 import CircularTimer from "@/components/ui/CircularTimer";
-import DevTools from "@/components/ui/DevTools";
 import { getTimeDiff, pad } from "@/utils/time";
 
 import Image from "next/image";
@@ -155,9 +154,6 @@ const CountdownPage = () => {
         showDevToolsIcon={showDevToolsIcon}
         onToggleDevToolsIcon={() => setShowDevToolsIcon((prev) => !prev)}
       />
-      {showDevToolsIcon && showDevTools && (
-        <DevTools onClose={() => setShowDevTools(false)} />
-      )}
       <div className="absolute bottom-4 right-4 flex flex-col space-y-4 z-50">
         <button
           onClick={() => setShowInfoBox(!showInfoBox)}
