@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 interface SettingsProps {
   isOpen: boolean;
@@ -9,7 +9,7 @@ interface SettingsProps {
   showHeaders: boolean; 
   enableTickingSound: boolean; 
   useNewBranding: boolean; // Add this
-  roundingMethod: 'floor' | 'nearest'; 
+  roundingMethod: 'floor' | 'nearest'; // Update this
   onToggleDecimals: () => void;
   onToggleDigital: () => void;
   onToggleRing: () => void;
@@ -17,7 +17,7 @@ interface SettingsProps {
   onToggleHeaders: () => void; 
   onToggleTickingSound: () => void; 
   onToggleBranding: () => void; // Add this
-  onChangeRoundingMethod: (method: 'floor' | 'nearest') => void; 
+  onChangeRoundingMethod: (method: 'floor' | 'nearest') => void; // Update this
   showDevToolsIcon: boolean; // Add this
   onToggleDevToolsIcon: () => void; // Add this
 }
@@ -31,7 +31,7 @@ const Settings: React.FC<SettingsProps> = ({
   showHeaders, 
   enableTickingSound, 
   useNewBranding, // Add this
-  roundingMethod, 
+  roundingMethod, // Update this
   onToggleDecimals,
   onToggleDigital,
   onToggleRing,
@@ -39,19 +39,19 @@ const Settings: React.FC<SettingsProps> = ({
   onToggleHeaders, 
   onToggleTickingSound, 
   onToggleBranding, // Add this
-  onChangeRoundingMethod, 
+  onChangeRoundingMethod, // Update this
   showDevToolsIcon,
   onToggleDevToolsIcon,
 }) => {
-  const [showDevTools, setShowDevTools] = useState(false);
-
-  useEffect(() => {
-    if (showDevToolsIcon) {
-      setShowDevTools(true);
-    } else {
-      setShowDevTools(false);
-    }
-  }, [showDevToolsIcon]);
+  // Remove unused showDevTools state and effect
+  // const [showDevTools, setShowDevTools] = useState(false);
+  // useEffect(() => {
+  //   if (showDevToolsIcon) {
+  //     setShowDevTools(true);
+  //   } else {
+  //     setShowDevTools(false);
+  //   }
+  // }, [showDevToolsIcon]);
 
   const handleToggleDevToolsIcon = () => {
     onToggleDevToolsIcon();
@@ -193,12 +193,12 @@ const Settings: React.FC<SettingsProps> = ({
         <div className="flex items-center justify-between mb-2">
           <span>Rounding method:</span>
           <select
-            value="floor"
-            disabled
+            value={roundingMethod} // Update this
+            onChange={(e) => onChangeRoundingMethod(e.target.value as 'floor' | 'nearest')} // Update this
             className="bg-gray-600 text-white rounded p-1"
-            style={{ cursor: 'not-allowed' }} // Add this
           >
             <option value="floor">Floor</option>
+            <option value="nearest">Nearest</option>
           </select>
         </div>
       </div>

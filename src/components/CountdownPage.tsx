@@ -5,7 +5,7 @@ import InfoBox from "@/components/ui/InfoBox";
 import Settings from "@/components/ui/Settings";
 import DigitalCountdown from "@/components/ui/DigitalCountdown";
 import CircularTimer from "@/components/ui/CircularTimer";
-import DevTools from "@/components/ui/DevTools"; // Add this
+import DevTools from "@/components/ui/DevTools";
 import { getTimeDiff, pad } from "@/utils/time";
 
 import Image from "next/image";
@@ -33,9 +33,6 @@ const CountdownPage = () => {
     seconds: 0,
   });
 
-  const startDate = new Date('2021-08-23T08:45:00');
-  const endDate = new Date('2025-06-05T16:00:00');
-
   const [showInfoBox, setShowInfoBox] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showDecimals, setShowDecimals] = useState(true);
@@ -45,145 +42,43 @@ const CountdownPage = () => {
   const [roundingMethod, setRoundingMethod] = useState<'floor' | 'nearest'>('floor');
   const [showHeaders, setShowHeaders] = useState(false);
   const [enableTickingSound, setEnableTickingSound] = useState(false);
-  const [useNewBranding, setUseNewBranding] = useState(false); // Add this
-  const [showDevToolsIcon, setShowDevToolsIcon] = useState(false); // Add this
-  const [showDevTools, setShowDevTools] = useState(false); // Add this
+  const [useNewBranding, setUseNewBranding] = useState(false);
+  const [showDevToolsIcon, setShowDevToolsIcon] = useState(false);
+  const [showDevTools, setShowDevTools] = useState(false);
+
+  const startDate = new Date("2021-08-23T08:45:00");
+  const endDate = new Date("2025-06-05T16:00:00");
+
   const tickingSoundRef = useRef<HTMLAudioElement | null>(null);
 
-  const handleToggleInfo = () => {
-    setShowInfoBox(!showInfoBox);
-    if (!showInfoBox) setShowSettings(false);
-  };
-
-  const handleToggleSettings = () => {
-    setShowSettings(!showSettings);
-    if (!showSettings) setShowInfoBox(false);
-  };
-
-  const handleToggleDecimals = () => {
-    setShowDecimals((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("showDecimals", JSON.stringify(newValue));
-      return newValue;
-    });
-  };
-
-  const handleToggleDigital = () => {
-    setShowDigital((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("showDigital", JSON.stringify(newValue));
-      return newValue;
-    });
-  };
-
-  const handleToggleRing = () => {
-    setShowRing((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("showRing", JSON.stringify(newValue));
-      return newValue;
-    });
-  };
-
-  const handleToggleText = () => {
-    setShowText((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("showText", JSON.stringify(newValue));
-      return newValue;
-    });
-  };
-
-  const handleChangeRoundingMethod = (method: 'floor' | 'nearest') => {
-    setRoundingMethod(method);
-    localStorage.setItem("roundingMethod", method);
-  };
-
-  const handleToggleHeaders = () => {
-    setShowHeaders((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("showHeaders", JSON.stringify(newValue));
-      return newValue;
-    });
-  };
-
-  const handleToggleTickingSound = () => {
-    setEnableTickingSound((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("enableTickingSound", JSON.stringify(newValue));
-      return newValue;
-    });
-  };
-
-  const handleToggleBranding = () => {
-    setUseNewBranding((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("useNewBranding", JSON.stringify(newValue));
-      window.location.reload(); // Refresh the page
-      return newValue;
-    });
-  };
-
-  const handleToggleDevToolsIcon = () => {
-    setShowDevToolsIcon((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("enableDevTools", JSON.stringify(newValue));
-      return newValue;
-    });
-  };
-
   const getNowTime = (): Date => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const override = localStorage.getItem("manualCountdownOverride");
       if (override) {
         return new Date(override);
       }
       return new Date(new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
     }
-    // Fallback if window is undefined (SSR)
-    return new Date();
+    return new Date(); // Fallback for SSR
   };
 
-  // Move the update logic outside of useEffect to prevent infinite loops
   const updateCountdown = () => {
     const now = getNowTime();
     const totalDuration = endDate.getTime() - startDate.getTime();
     const elapsedDuration = now.getTime() - startDate.getTime();
     const calc = (elapsedDuration / totalDuration) * 100;
-    
-    return {
-      percentage: Math.max(0, Math.min(100, calc)),
-      timeParts: getTimeDiff(now, endDate)
-    };
+    setPercentage(Math.max(0, Math.min(100, calc)));
+    setTimeParts(getTimeDiff(now, endDate));
   };
 
+  // Initial and interval updates
   useEffect(() => {
-    // Initial update
-    const initialValues = updateCountdown();
-    setPercentage(initialValues.percentage);
-    setTimeParts(initialValues.timeParts);
+    updateCountdown(); // Initial update
+    const timer = setInterval(updateCountdown, 1000); // Update every second
+    return () => clearInterval(timer); // Cleanup on unmount
+  }, []); // Runs only once on mount
 
-    // Set up interval for updates
-    const timer = setInterval(() => {
-      const values = updateCountdown();
-      setPercentage(values.percentage);
-      setTimeParts(values.timeParts);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []); // Empty dependency array since startDate and endDate are constants
-
-  useEffect(() => {
-    if (enableTickingSound) {
-      if (!tickingSoundRef.current) {
-        tickingSoundRef.current = new Audio('/audio/clock_tick.mp3');
-        tickingSoundRef.current.loop = true;
-      }
-      tickingSoundRef.current.play();
-    } else if (tickingSoundRef.current) {
-      tickingSoundRef.current.pause();
-      tickingSoundRef.current.currentTime = 0;
-    }
-  }, [enableTickingSound]);
-
+  // Sync local storage state on mount
   useEffect(() => {
     setShowDecimals(JSON.parse(localStorage.getItem("showDecimals") || "true"));
     setShowDigital(JSON.parse(localStorage.getItem("showDigital") || "true"));
@@ -194,8 +89,20 @@ const CountdownPage = () => {
     setEnableTickingSound(JSON.parse(localStorage.getItem("enableTickingSound") || "false"));
     setUseNewBranding(JSON.parse(localStorage.getItem("useNewBranding") || "false"));
     setShowDevToolsIcon(JSON.parse(localStorage.getItem("enableDevTools") || "false"));
-    setShowDevTools(JSON.parse(localStorage.getItem("enableDevTools") || "false")); // Add this
   }, []);
+
+  useEffect(() => {
+    if (enableTickingSound) {
+      if (!tickingSoundRef.current) {
+        tickingSoundRef.current = new Audio("/audio/clock_tick.mp3");
+        tickingSoundRef.current.loop = true;
+      }
+      tickingSoundRef.current.play();
+    } else if (tickingSoundRef.current) {
+      tickingSoundRef.current.pause();
+      tickingSoundRef.current.currentTime = 0;
+    }
+  }, [enableTickingSound]);
 
   return (
     <div className="min-h-screen w-full bg-black p-4 md:p-8 text-white flex flex-col items-center">
@@ -204,8 +111,8 @@ const CountdownPage = () => {
           <h1 
             className="text-xl md:text-2xl font-semibold mb-2 bg-black/30 backdrop-blur-sm px-4 md:px-6 py-2 rounded-lg text-red-500"
             style={{
-              filter: 'drop-shadow(0 0 5px rgba(239, 68, 68, 0.5))',
-              border: '1px solid rgba(239, 68, 68, 0.2)'
+              filter: "drop-shadow(0 0 5px rgba(239, 68, 68, 0.5))",
+              border: "1px solid rgba(239, 68, 68, 0.2)",
             }}
           >
             Graduation Countdown
@@ -213,11 +120,11 @@ const CountdownPage = () => {
           <h2 
             className="text-2xl md:text-4xl font-bold mb-4 bg-black/30 backdrop-blur-sm px-6 md:px-8 py-3 rounded-lg text-yellow-400"
             style={{
-              filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.5))',
-              border: '1px solid rgba(251, 191, 36, 0.2)'
+              filter: "drop-shadow(0 0 8px rgba(251, 191, 36, 0.5))",
+              border: "1px solid rgba(251, 191, 36, 0.2)",
             }}
           >
-            {useNewBranding ? 'KHS Class of 2025' : 'KJHS Class of 2025'}
+            {useNewBranding ? "KHS Class of 2025" : "KJHS Class of 2025"}
           </h2>
         </>
       )}
@@ -225,7 +132,7 @@ const CountdownPage = () => {
         isOpen={showInfoBox} 
         startDate={startDate} 
         endDate={endDate} 
-        onToggle={handleToggleInfo}
+        onToggle={() => setShowInfoBox(!showInfoBox)}
       />
       <Settings
         isOpen={showSettings}
@@ -235,35 +142,32 @@ const CountdownPage = () => {
         showText={showText}
         showHeaders={showHeaders}
         enableTickingSound={enableTickingSound}
-        roundingMethod="floor" // Force rounding method to "floor"
-        onToggleDecimals={handleToggleDecimals}
-        onToggleDigital={handleToggleDigital}
-        onToggleRing={handleToggleRing}
-        onToggleText={handleToggleText}
-        onToggleHeaders={handleToggleHeaders}
-        onToggleTickingSound={handleToggleTickingSound}
-        useNewBranding={useNewBranding} // Add this
-        onToggleBranding={handleToggleBranding} // Add this
-        onChangeRoundingMethod={() => {}} // Disable changing rounding method
-        showDevToolsIcon={showDevToolsIcon} // Add this
-        onToggleDevToolsIcon={handleToggleDevToolsIcon} // Add this
+        roundingMethod={roundingMethod}
+        onToggleDecimals={() => setShowDecimals((prev) => !prev)}
+        onToggleDigital={() => setShowDigital((prev) => !prev)}
+        onToggleRing={() => setShowRing((prev) => !prev)}
+        onToggleText={() => setShowText((prev) => !prev)}
+        onToggleHeaders={() => setShowHeaders((prev) => !prev)}
+        onToggleTickingSound={() => setEnableTickingSound((prev) => !prev)}
+        useNewBranding={useNewBranding}
+        onToggleBranding={() => setUseNewBranding((prev) => !prev)}
+        onChangeRoundingMethod={setRoundingMethod}
+        showDevToolsIcon={showDevToolsIcon}
+        onToggleDevToolsIcon={() => setShowDevToolsIcon((prev) => !prev)}
       />
-      {/* Dev Tools Panel */}
       {showDevToolsIcon && showDevTools && (
-        <DevTools
-          onClose={() => setShowDevTools(false)}
-        />
+        <DevTools onClose={() => setShowDevTools(false)} />
       )}
       <div className="absolute bottom-4 right-4 flex flex-col space-y-4">
         <button
-          onClick={handleToggleInfo}
-          className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showInfoBox ? 'bg-red-500 hover:bg-red-400' : 'bg-gray-700 hover:bg-gray-600'}`}
+          onClick={() => setShowInfoBox(!showInfoBox)}
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showInfoBox ? "bg-red-500 hover:bg-red-400" : "bg-gray-700 hover:bg-gray-600"}`}
         >
           <Image src={showInfoBox ? CloseIcon : InfoIcon} alt="Info" />
         </button>
         <button
-          onClick={handleToggleSettings}
-          className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showSettings ? 'bg-red-500 hover:bg-red-400' : 'bg-gray-700 hover:bg-gray-600'}`}
+          onClick={() => setShowSettings(!showSettings)}
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${showSettings ? "bg-red-500 hover:bg-red-400" : "bg-gray-700 hover:bg-gray-600"}`}
         >
           <Image src={showSettings ? CloseIcon : SettingsIcon} alt="Settings" />
         </button>
@@ -274,7 +178,7 @@ const CountdownPage = () => {
             percentage={percentage}
             showText={showText}
             showDecimals={showDecimals}
-            roundingMethod="floor" // Force rounding method to "floor"
+            roundingMethod={roundingMethod}
             className="mb-8"
           />
         )}

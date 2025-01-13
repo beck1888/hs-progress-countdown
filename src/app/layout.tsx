@@ -1,9 +1,9 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,7 +44,7 @@ export default function RootLayout({
           This site is not affiliated with <a href="https://kehillah.org/" target="_blank" className="underline">Kehillah</a> nor <a href="https://kehillah.today/" target="_blank" className="underline">kehillah.today</a> and may not reflect most current dates.
           <br />
           &copy; 2025 <a href="https://github.com/beck1888" target="_blank" className="underline">Beck Orion</a>. | <a href="https://docs.google.com/forms/d/e/1FAIpQLSfvxpGIi-Gi2LJDD_VLIX3U3wmdFmX2pjhosUZGYhTnGpKZlQ/viewform?usp=header" target="_blank" className="underline">Contact</a> | This developer stands with <a href="https://www.standwithus.com/" target="_blank" className="underline">Israel</a>. 
-          <img src="/icons/israel.svg" alt="Israel flag" className="inline ml-1 align-text-bottom w-4 h-4 brightness-110" />
+          <Image src="/icons/israel.svg" alt="Israel flag" width={16} height={16} className="inline ml-1 align-text-bottom brightness-110" />
         </footer>
       </body>
     </html>

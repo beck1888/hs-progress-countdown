@@ -7,7 +7,7 @@ interface CircularTimerProps {
   className?: string;
   showText?: boolean;
   showDecimals?: boolean;
-  roundingMethod?: "floor" | "nearest";
+  roundingMethod?: "floor" | "nearest"; // Update this
 }
 
 const CircularTimer: React.FC<CircularTimerProps> = ({
@@ -17,7 +17,7 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
   className = '',
   showText,
   showDecimals,
-  roundingMethod
+  roundingMethod // Update this
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
