@@ -39,6 +39,7 @@ const InfoBox: React.FC<InfoBoxProps> = ({ isOpen, children }) => {
       <div className="mt-2">
         <strong>Version:</strong> <a href="https://github.com/beck1888/hs-progress-countdown" target="_blank" className='underline' rel="noopener noreferrer">{lastCommitId}</a>
       </div>
+      <div><strong>Build:</strong> {process.env.NEXT_PUBLIC_RUNNING_BUILD}</div>
       {children}
     </div>
   );
