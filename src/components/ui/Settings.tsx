@@ -40,15 +40,15 @@ const Settings: React.FC<SettingsProps> = ({
   onToggleTickingSound, 
   onToggleBranding, // Add this
   onChangeRoundingMethod, // Update this
-  showDevToolsIcon,
-  onToggleDevToolsIcon,
+  // showDevToolsIcon,
+  // onToggleDevToolsIcon,
 }) => {
-  const handleToggleDevToolsIcon = () => {
-    onToggleDevToolsIcon();
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
-  };
+  // const handleToggleDevToolsIcon = () => {
+  //   onToggleDevToolsIcon();
+  //   setTimeout(() => {
+  //     window.location.reload();
+  //   }, 100);
+  // };
 
   if (!isOpen) return null;
 

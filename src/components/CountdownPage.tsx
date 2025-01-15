@@ -46,7 +46,7 @@ const CountdownPage = () => {
   const [enableTickingSound, setEnableTickingSound] = useState(false);
   const [useNewBranding, setUseNewBranding] = useState(false);
   const [showDevToolsIcon, setShowDevToolsIcon] = useState(false);
-  const [showDevTools, setShowDevTools] = useState(false);
+  // const [showDevTools, setShowDevTools] = useState(false);
 
   const tickingSoundRef = useRef<HTMLAudioElement | null>(null);
 
@@ -61,21 +61,21 @@ const CountdownPage = () => {
     return new Date(); // Fallback for SSR
   };
 
-  const updateCountdown = () => {
+  const updateCountdown = useCallback(() => {
     const now = getNowTime();
     const totalDuration = endDate.getTime() - startDate.getTime();
     const elapsedDuration = now.getTime() - startDate.getTime();
     const calc = (elapsedDuration / totalDuration) * 100;
     setPercentage(Math.max(0, Math.min(100, calc)));
     setTimeParts(getTimeDiff(now, endDate));
-  };
+  }, []);
 
   // Initial and interval updates
   useEffect(() => {
     updateCountdown(); // Initial update
     const timer = setInterval(updateCountdown, 1000); // Update every second
     return () => clearInterval(timer); // Cleanup on unmount
-  }, [startDate, endDate]); // Add startDate and endDate to dependency array
+  }, [updateCountdown]); // Add updateCountdown to dependency array
 
   // Sync local storage state on mount
   useEffect(() => {
@@ -194,3 +194,4 @@ const CountdownPage = () => {
 };
 
 export default CountdownPage;
+import { useCallback } from "react";
