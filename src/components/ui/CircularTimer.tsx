@@ -63,7 +63,7 @@ const CircularTimer: React.FC<CircularTimerProps> = ({
           }}
         />
       </svg>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-full">
         {showText && (
           <p className="text-sm text-gray-400">The Kehillah Class of 2025 is</p>
         )}
