@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { useState, useEffect } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
       >
         {children}
         <SpeedInsights />
+        <Analytics /> {/* Add this line */}
         {/* Footer can go here */}
       </body>
     </html>
